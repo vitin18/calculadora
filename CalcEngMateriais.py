@@ -12,7 +12,7 @@ def obter_coordenadas(mensagem):
         coordenadas = input(mensagem)
         if "," in coordenadas:
             try:
-                coordenadas = [int(x) for x in coordenadas.split(",")]
+                coordenadas = [float(x) for x in coordenadas.split(",")]
                 if len(coordenadas) == 2:
                     return coordenadas
             except ValueError:
@@ -83,7 +83,7 @@ while True:
         # Círculo e Derivados
         elif tipo_figura == 3 or tipo_figura == 4 or tipo_figura == 5:
             centro_circulo = obter_coordenadas("Quais as coordenadas do centro da figura? (separar por vírgula)\n")
-            raio = int(input("Qual o raio da figura?\n"))
+            raio = float(input("Qual o raio da figura?\n"))
             area = math.pi * (raio ** 2)
 
             if tipo_figura == 3:
@@ -171,7 +171,7 @@ while True:
             menos_area_formas += area
         elif tipo_figura == 3 or tipo_figura == 4 or tipo_figura == 5:
             centro_circulo = obter_coordenadas("Quais as coordenadas do centro da figura? (separar por vírgula)\n")
-            raio = int(input("Qual o raio da figura?\n"))
+            raio = float(input("Qual o raio da figura?\n"))
             area = math.pi * (raio ** 2)
             if tipo_figura == 3:
                 centro_gx = centro_circulo[0]
@@ -224,7 +224,8 @@ while True:
             menos_area_formas += area
 
     area_total = (area_formas - menos_area_formas)
-    momento_estatico_total = momento_estatico_add_y - momento_estatico_remov_y
+    centro_gx_final = momento_estatico_add_x - momento_estatico_remov_x
+    centro_gy_final = momento_estatico_add_y - momento_estatico_remov_y
 
     print(f"Área Total: {area_total}")
     print(f"Centro de Gravidade (Eixo Y): {centro_gy_final}")

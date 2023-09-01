@@ -142,7 +142,8 @@ while True:
                                 "1- quadrado ou retângulo\n"
                                 "2- triângulo\n"
                                 "3- círculo\n"
-                                "4- semicírculo\n"))
+                                "4- semicírculo\n"
+                                "5- 1/4 de circulo\n"))
 
         if tipo_figura == 1 or tipo_figura == 2:
             base = obter_coordenadas("Quais as coordenadas em X da base? (separar por vírgula)\n")

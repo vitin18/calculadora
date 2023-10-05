@@ -1,12 +1,96 @@
 import math
 import time
 
-def animacao(texto):
-    for char in texto:
-        print(char, end='', flush=True)
-        time.sleep(0.03)
-    print()
+class Figura:
+    def __init__(self, tipo):
+        self.tipo = tipo
+        self.area = 0
+        self.centro_gx = 0
+        self.centro_gy = 0
+        self.momento_inercia_x = 0
+        self.momento_inercia_y = 0
 
+    def calcular_area(self):
+        pass
+
+    def calcular_centro_gravidade(self):
+        pass
+
+    def calcular_momento_inercia(self):
+        pass
+
+class QuadradoRetangulo(Figura):
+    def __init__(self, base, altura):
+        super().__init__("Quadrado/Retângulo")
+        self.base = base
+        self.altura = altura
+
+    def calcular_area(self):
+        self.area = self.base * self.altura
+
+    def calcular_centro_gravidade(self):
+        self.centro_gx = self.base / 2
+        self.centro_gy = self.altura / 2
+
+    def calcular_momento_inercia(self):
+        self.momento_inercia_x = (self.altura ** 3) * self.base / 12
+        self.momento_inercia_y = (self.base ** 3) * self.altura / 12
+
+class Triangulo(Figura):
+    def __init__(self, base, altura):
+        super().__init__("Triângulo")
+        self.base = base
+        self.altura = altura
+
+    def calcular_area(self):
+        self.area = (self.base * self.altura) / 2
+
+    def calcular_centro_gravidade(self):
+        self.centro_gx = self.base / 3
+        self.centro_gy = self.altura / 3
+
+    def calcular_momento_inercia(self):
+        self.momento_inercia_x = (self.altura ** 3) * self.base / 36
+        self.momento_inercia_y = (self.base ** 3) * self.altura / 36
+
+class Circulo(Figura):
+    def __init__(self, raio):
+        super().__init__("Círculo")
+        self.raio = raio
+
+    def calcular_area(self):
+        self.area = math.pi * (self.raio ** 2)
+
+    def calcular_centro_gravidade(self):
+        self.centro_gx = 0
+        self.centro_gy = 0
+
+    def calcular_momento_inercia(self):
+        self.momento_inercia_x = (math.pi * self.raio ** 4) / 4
+        self.momento_inercia_y = (math.pi * self.raio ** 4) / 4
+
+class Semicirculo(Figura):
+    def __init__(self, raio, direcao):
+        super().__init__("Semicírculo")
+        self.raio = raio
+        self.direcao = direcao
+
+    def calcular_area(self):
+        self.area = (math.pi * (self.raio ** 2)) / 2
+
+    def calcular_centro_gravidade(self):
+        if self.direcao in [1, 3]:
+            self.centro_gx = 0
+            self.centro_gy = 0
+        else:
+            self.centro_gx = 0
+            self.centro_gy = (4 * self.raio / (3 * math.pi))
+
+    def calcular_momento_inercia(self):
+        self.momento_inercia_x = (math.pi * self.raio ** 4) / 4
+        self.momento_inercia_y = (math.pi * self.raio ** 4) / 4
+
+# Função para obter coordenadas
 def obter_coordenadas(mensagem):
     while True:
         coordenadas = input(mensagem)
@@ -19,113 +103,73 @@ def obter_coordenadas(mensagem):
                 pass
         print("Por favor, digite as coordenadas corretamente (formato: x,y).")
 
-apresentacao = (
-    "Bem-vindo à Calculadora de Engenharia Estrutural!\n"
-    "Essa calculadora determinará a área, o momento estático, o centro de gravidade e o momento de inércia de várias figuras!\n"
-)
+# Função principal
+def main():
+    apresentacao = (
+        "Bem-vindo à Calculadora de Engenharia Estrutural!\n"
+        "Essa calculadora determinará a área, o momento estático, o centro de gravidade e o momento de inércia de várias figuras!\n"
+    )
 
-animacao(apresentacao)
-print("\nDessa forma, vamos calcular a área, o momento estático, o centro de gravidade e o momento de inércia de várias figuras!")
+    animacao(apresentacao)
+    print("\nDessa forma, vamos calcular a área, o momento estático, o centro de gravidade e o momento de inércia de várias figuras!")
 
-while True:
-    area_total = 0
-    momento_estatico_total_x = 0
-    momento_estatico_total_y = 0
-    momento_inercia_x = 0
-    momento_inercia_y = 0
+    while True:
+        area_total = 0
+        momento_estatico_total_x = 0
+        momento_estatico_total_y = 0
+        momento_inercia_x = 0
+        momento_inercia_y = 0
 
-    figuras = int(input("Quantas figuras você deseja calcular?\n"))
+        figuras = int(input("Quantas figuras você deseja calcular?\n"))
 
-    for i in range(figuras):
-        tipo_figura = int(input(f"Qual o tipo de figura está sendo adicionada? (Figura {i + 1})\n"
-                                "1- quadrado ou retângulo\n"
-                                "2- triângulo\n"
-                                "3- círculo\n"
-                                "4- semicírculo\n"
-                                "5- 1/4 de círculo\n"))
-
-        if tipo_figura == 1 or tipo_figura == 2:
-            base = obter_coordenadas("Quais as coordenadas em X da base? (separar por vírgula)\n")
-            altura = obter_coordenadas("Quais as coordenadas em Y da altura? (separar por vírgula)\n")
-            base_conta = base[1] - base[0]
-            altura_conta = altura[1] - altura[0]
-            area = base_conta * altura_conta
+        for i in range(figuras):
+            tipo_figura = int(input(f"Qual o tipo de figura está sendo adicionada? (Figura {i + 1})\n"
+                                    "1- quadrado ou retângulo\n"
+                                    "2- triângulo\n"
+                                    "3- círculo\n"
+                                    "4- semicírculo\n"
+                                    "5- 1/4 de círculo\n"))
 
             if tipo_figura == 1:
-                centro_gx = (base_conta / 2) + base[0]
-                centro_gy = (altura_conta / 2) + altura[0]
-                dIx = (altura_conta ** 3) * base_conta / 12
-                dIy = (base_conta ** 3) * altura_conta / 12
-            else:
-                area = area / 2
-                angulo_reto = obter_coordenadas("Quais as coordenadas do ângulo reto? (separar por vírgula)\n")
-                centro_gx = (base_conta / 3) + angulo_reto[0]
-                centro_gy = (altura_conta / 3) + angulo_reto[1]
-                dIx = (altura_conta ** 3) * base_conta / 36
-                dIy = (base_conta ** 3) * altura_conta / 36
-
-        elif tipo_figura == 3 or tipo_figura == 4 or tipo_figura == 5:
-            centro_circulo = obter_coordenadas("Quais as coordenadas do centro da figura? (separar por vírgula)\n")
-            raio = float(input("Qual o raio da figura?\n"))
-            area = math.pi * (raio ** 2)
-
-            if tipo_figura == 3:
-                centro_gx = centro_circulo[0]
-                centro_gy = centro_circulo[1]
-                dIx = (math.pi * raio ** 4) / 4
-                dIy = (math.pi * raio ** 4) / 4
+                base = obter_coordenadas("Quais as coordenadas em X da base? (separar por vírgula)\n")
+                altura = obter_coordenadas("Quais as coordenadas em Y da altura? (separar por vírgula)\n")
+                figura = QuadradoRetangulo(base[1] - base[0], altura[1] - altura[0])
+            elif tipo_figura == 2:
+                base = obter_coordenadas("Quais as coordenadas em X da base? (separar por vírgula)\n")
+                altura = obter_coordenadas("Quais as coordenadas em Y da altura? (separar por vírgula)\n")
+                figura = Triangulo(base[1] - base[0], altura[1] - altura[0])
+            elif tipo_figura == 3:
+                raio = float(input("Qual o raio do círculo?\n"))
+                figura = Circulo(raio)
             elif tipo_figura == 4:
-                area = area / 2
-                direction = int(input("Para qual direção está o semicírculo?\n"
-                                      "1 - esquerda\n"
-                                      "2 - baixo\n"
-                                      "3 - direita\n"
-                                      "4 - cima\n"))
-                if direction == 1 or direction == 3:
-                    centro_gy = centro_circulo[1]
-                    center_x = (4 * raio / (3 * math.pi)) if direction == 1 else (-4 * raio / (3 * math.pi))
-                    centro_gx = centro_circulo[0] + center_x
-                    dIx = (math.pi * raio ** 4) / 4
-                    dIy = (math.pi * raio ** 4) / 4
-                else:
-                    centro_gx = centro_circulo[0]
-                    center_y = (4 * raio / (3 * math.pi)) if direction == 2 else (-4 * raio / (3 * math.pi))
-                    centro_gy = centro_circulo[1] + center_y
-                    dIx = (math.pi * raio ** 4) / 4
-                    dIy = (math.pi * raio ** 4) / 4
-            else:
-                area = area / 4
-                direction = int(input("Em qual quadrante está o ¼ de círculo?\n"
-                                      "1 - primeiro\n"
-                                      "2 - segundo\n"
-                                      "3 - terceiro\n"
-                                      "4 - quarto\n"))
-                if direction == 1 or direction == 2:
-                    centro_gy = centro_circulo[1] + (4 * raio / (3 * math.pi))
-                    center_x = (4 * raio / (3 * math.pi)) if direction == 1 else (-4 * raio / (3 * math.pi))
-                    centro_gx = centro_circulo[0] + center_x
-                    dIx = (math.pi * raio ** 4) / 4
-                    dIy = (math.pi * raio ** 4) / 4
-                elif direction == 3 or direction == 4:
-                    centro_gy = centro_circulo[1] - (4 * raio / (3 * math.pi))
-                    center_x = (-4 * raio / (3 * math.pi)) if direction == 3 else (4 * raio / (3 * math.pi))
-                    centro_gx = centro_circulo[0] + center_x
-                    dIx = (math.pi * raio ** 4) / 4
-                    dIy = (math.pi * raio ** 4) / 4
+                raio = float(input("Qual o raio do semicírculo?\n"))
+                direcao = int(input("Para qual direção está o semicírculo?\n"
+                                    "1 - esquerda\n"
+                                    "2 - baixo\n"
+                                    "3 - direita\n"
+                                    "4 - cima\n"))
+                figura = Semicirculo(raio, direcao)
 
-        momento_estatico_total_x += centro_gx * area
-        momento_estatico_total_y += centro_gy * area
-        momento_inercia_x += dIx
-        momento_inercia_y += dIy
-        area_total += area
+            figura.calcular_area()
+            figura.calcular_centro_gravidade()
+            figura.calcular_momento_inercia()
 
-    print(f"Área Total: {area_total}")
-    print(f"Centro de Gravidade (Eixo X): {momento_estatico_total_x / area_total}")
-    print(f"Centro de Gravidade (Eixo Y): {momento_estatico_total_y / area_total}")
-    print(f"Momento de Inércia (Eixo X): {momento_inercia_x}")
-    print(f"Momento de Inércia (Eixo Y): {momento_inercia_y}")
+            momento_estatico_total_x += figura.centro_gx * figura.area
+            momento_estatico_total_y += figura.centro_gy * figura.area
+            momento_inercia_x += figura.momento_inercia_x
+            momento_inercia_y += figura.momento_inercia_y
+            area_total += figura.area
 
-    sair = input("Digite 'SAIR' para parar ou pressione ENTER↵ para continuar: ")
+        print(f"Área Total: {area_total}")
+        print(f"Centro de Gravidade (Eixo X): {momento_estatico_total_x / area_total}")
+        print(f"Centro de Gravidade (Eixo Y): {momento_estatico_total_y / area_total}")
+        print(f"Momento de Inércia (Eixo X): {momento_inercia_x}")
+        print(f"Momento de Inércia (Eixo Y): {momento_inercia_y}")
 
-    if sair == 'SAIR':
-        break
+        sair = input("Digite 'SAIR' para parar ou pressione ENTER↵ para continuar: ")
+
+        if sair == 'SAIR':
+            break
+
+if __name__ == "__main__":
+    main()

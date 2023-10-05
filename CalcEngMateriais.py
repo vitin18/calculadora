@@ -54,15 +54,15 @@ while True:
             if tipo_figura == 1:
                 centro_gx = (base_conta / 2) + base[0]
                 centro_gy = (altura_conta / 2) + altura[0]
-                 dIx = (altura_conta ** 3) * base_conta / 12
+                dIx = (altura_conta ** 3) * base_conta / 12
                 dIy = (base_conta ** 3) * altura_conta / 12
             else:
                 area = area / 2
                 angulo_reto = obter_coordenadas("Quais as coordenadas do ângulo reto? (separar por vírgula)\n")
                 centro_gx = (base_conta / 3) + angulo_reto[0]
                 centro_gy = (altura_conta / 3) + angulo_reto[1]
-                 dIx = (altura_conta ** 3) * base_conta / 12
-            dIy = (base_conta ** 3) * altura_conta / 12
+                dIx = (altura_conta ** 3) * base_conta / 36
+                dIy = (base_conta ** 3) * altura_conta / 36
 
         elif tipo_figura == 3 or tipo_figura == 4 or tipo_figura == 5:
             centro_circulo = obter_coordenadas("Quais as coordenadas do centro da figura? (separar por vírgula)\n")
@@ -72,8 +72,8 @@ while True:
             if tipo_figura == 3:
                 centro_gx = centro_circulo[0]
                 centro_gy = centro_circulo[1]
-                 dIx = (math.pi * raio ** 4) / 4
-            dIy = (math.pi * raio ** 4) / 4
+                dIx = (math.pi * raio ** 4) / 4
+                dIy = (math.pi * raio ** 4) / 4
             elif tipo_figura == 4:
                 area = area / 2
                 direction = int(input("Para qual direção está o semicírculo?\n"
@@ -85,14 +85,14 @@ while True:
                     centro_gy = centro_circulo[1]
                     center_x = (4 * raio / (3 * math.pi)) if direction == 1 else (-4 * raio / (3 * math.pi))
                     centro_gx = centro_circulo[0] + center_x
-                     dIx = (math.pi * raio ** 4) / 4
-            dIy = (math.pi * raio ** 4) / 4
+                    dIx = (math.pi * raio ** 4) / 4
+                    dIy = (math.pi * raio ** 4) / 4
                 else:
                     centro_gx = centro_circulo[0]
                     center_y = (4 * raio / (3 * math.pi)) if direction == 2 else (-4 * raio / (3 * math.pi))
                     centro_gy = centro_circulo[1] + center_y
-                     dIx = (math.pi * raio ** 4) / 4
-            dIy = (math.pi * raio ** 4) / 4
+                    dIx = (math.pi * raio ** 4) / 4
+                    dIy = (math.pi * raio ** 4) / 4
             else:
                 area = area / 4
                 direction = int(input("Em qual quadrante está o ¼ de círculo?\n"
@@ -104,16 +104,16 @@ while True:
                     centro_gy = centro_circulo[1] + (4 * raio / (3 * math.pi))
                     center_x = (4 * raio / (3 * math.pi)) if direction == 1 else (-4 * raio / (3 * math.pi))
                     centro_gx = centro_circulo[0] + center_x
-                     dIx = (math.pi * raio ** 4) / 4
-            dIy = (math.pi * raio ** 4) / 4
+                    dIx = (math.pi * raio ** 4) / 4
+                    dIy = (math.pi * raio ** 4) / 4
                 elif direction == 3 or direction == 4:
                     centro_gy = centro_circulo[1] - (4 * raio / (3 * math.pi))
                     center_x = (-4 * raio / (3 * math.pi)) if direction == 3 else (4 * raio / (3 * math.pi))
                     centro_gx = centro_circulo[0] + center_x
- dIx = (math.pi * raio ** 4) / 4
-            dIy = (math.pi * raio ** 4) / 4
+                    dIx = (math.pi * raio ** 4) / 4
+                    dIy = (math.pi * raio ** 4) / 4
 
-       momento_estatico_total_x += centro_gx * area
+        momento_estatico_total_x += centro_gx * area
         momento_estatico_total_y += centro_gy * area
         momento_inercia_x += dIx
         momento_inercia_y += dIy
